@@ -1,6 +1,9 @@
 # Bot primary Configuration file
 hcbpy.conf
 
+# IDEA based stuff
+.idea/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
