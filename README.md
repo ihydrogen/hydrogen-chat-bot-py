@@ -6,7 +6,12 @@ This is open source Chat Bot for vk.com written in Python language (v3)
 To get more information visit wiki (not now:D)
 
 # How to run
-To run project just clone it and run ./bot.py
+.. code-block:: bash
+  git clone https://github.com/ihydrogen/hydrogen-chat-bot-py.git
+  cd hydrogen-chat-bot-py
+  ./bot.py
+  
+That's all:)
 
 # Deps
 project usus following libs:
