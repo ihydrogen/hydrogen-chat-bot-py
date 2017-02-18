@@ -40,8 +40,8 @@ class LongPoolEvent(Enum):
             exec('module_%s.main(resp, lp_thread_ins)' % method_name)
             # exec("retval = LongPoolEvent.__%s__(evid)" % method_name)
         except ImportError as e:
-            print(e)
-            print("[WARN] [LP] define new file in long_pool_events: module_%s with method 'main'" % method_name)
+            # print(e)
+            # print("[WARN] [LP] define new file in long_pool_events: module_%s with method 'main'" % method_name)
             pass
         except Exception as exc:
             exceptiondata = traceback.format_exc().splitlines()
