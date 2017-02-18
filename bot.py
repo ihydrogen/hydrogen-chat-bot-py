@@ -31,6 +31,7 @@ DD_KEY = "dd"
 
 apply_date_to_output = True
 log = None
+timeout = 20
 bot_console_instance = None
 
 def get_options(parser):
