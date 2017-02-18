@@ -1,0 +1,7 @@
+# Import some modules
+import requests, json
+
+global CURRENT_ACCOUNT, LP_REQUESTS_DONE, LP_MESSAGES_RECEIVED, LP_MESSAGES_SENT, \
+        LOG, API_REQUESTS, FAILED_API_REQUESTS,\
+        \
+        LONG_POOL_THREAD_INSTANCE
