@@ -23,9 +23,6 @@ def auth_try(au):
         vkapi = vk.API(vk.Session(auth_result.access_token))
         import api
 
-        # 79602745237
-        # kazbek1982
-        #token = make_auth(get_auth_url(uname="+79602745237", passwd="kazbek1982"))
         json_ = str(vkapi.users.get(v="5.35")[0]).replace("'", '"')
         print(json_)
         user = json.loads(json_, object_hook=api.User.from_json)
