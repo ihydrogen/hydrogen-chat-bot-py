@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import os
+from termcolor import colored
 import time
 from optparse import OptionParser
 
@@ -19,19 +19,21 @@ THIS IS ENTRY FILE OF PROJECT
 # Name of configuration file
 CONF_FILE = utils.config_file.CONF_FILE
 # Name of keys of options[]
-CONF_FILE_KEY = 'conf-file'
-ACC_NUM_KEY = 'acc-num'
+CONF_FILE_KEY = 'config-file'
+ACC_NUM_KEY = 'account-num'
 LOG_FILE_KEY = 'log-file'
-LONG_POOL_KEY = "lp"
-UNAME_KEY = "uname"
-PASSWD_KEY = "passwd"
-LONG_POOL_TIME_OUT_KEY = "lptok"
+LONG_POOL_KEY = "start-long-pool"
+UNAME_KEY = "username"
+PASSWD_KEY = "password"
+V_KEY = "verbose"
+LONG_POOL_TIME_OUT_KEY = "long-pool-timeout"
 # Disable date printing
-DD_KEY = "dd"
+DD_KEY = "disable-date"
 
 apply_date_to_output = True
 log = None
 timeout = 20
+verbose = False
 bot_console_instance = None
 
 def get_options(parser):
@@ -66,6 +68,10 @@ def get_options(parser):
                       help='enable Long Pool',
                       default='False', action='store_true')
 
+    parser.add_option("-v", "--verbose", dest=V_KEY,
+                      help='verbose output',
+                      default=False, action='store_true')
+
     parser.add_option("-D", "--date-disable", dest=DD_KEY,
                       help='Disable pasting current date and time in stdout',
                       default='True', action='store_false')
@@ -80,7 +86,8 @@ def apply_options(options):
         apply_date_to_output,\
         password,\
         username,\
-        timeout
+        timeout,\
+        verbose
 
     utils.config_file.CONF_FILE = options[CONF_FILE_KEY]
     num = options[ACC_NUM_KEY]
@@ -89,6 +96,8 @@ def apply_options(options):
     password = options[PASSWD_KEY]
     username = options[UNAME_KEY]
     timeout = options[LONG_POOL_TIME_OUT_KEY]
+    verbose = options[V_KEY]
+    bot_header.verbose = verbose
     pass
 
 
@@ -142,6 +151,9 @@ def bot_entry():
                     a = bot_console_instance.get_message()
                     #return 1, 1, ("\r" + rtext), "text"
 
+        if rtext.__contains__(bot_header.WARNING):
+            rtext = rtext.replace(bot_header.WARNING, "")
+            rtext = colored(rtext, "yellow")
         return 1, 1, ("\r" + rtext), None
 
     phOut = print_hook.PrintHook()

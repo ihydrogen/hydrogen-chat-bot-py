@@ -46,8 +46,8 @@ def get_field(field_name, filename=CONF_FILE):
     with open(filename, 'rt') as f:
         lines = f.readlines()
         for line in lines:
-            if not line.startswith("#") and line.split("->")[0] == field_name:
-                result = line.split("->")[1].replace("\n", "")
+            if not line.startswith("#") and line.split("->")[0].strip() == field_name:
+                result = line.split("->")[1].strip().replace("\n", "")
                 if result.lower() == "none":
                     return None
                 else:
@@ -67,9 +67,9 @@ def has(field_name, filename=CONF_FILE):
 
     for line in lines:
         if line.__contains__("->"):
-            key = line.split("->")[0]
-            val = line.split("->")[1]
-            if key == field_name and (val == "1" or val == "true"):
+            key = line.split("->")[0].strip()
+            val = line.split("->")[1].strip()
+            if key == field_name and (val == "1" or val.lower() == "true"):
                 return True
     return False
 
@@ -88,7 +88,7 @@ def get_comment(field_name, filename=CONF_FILE):
 
     for line in lines:
         if line.__contains__("->"):
-            key = line.split("->")[0]
+            key = line.split("->")[0].strip()
             if key == field_name:
                 index = lines.index(line)
                 if index >= 1:
@@ -104,7 +104,7 @@ def set_field(field_name, value, filename=CONF_FILE):
 
     for line in lines:
         if line.__contains__("->"):
-            key = line.split("->")[0]
+            key = line.split("->")[0].strip()
             if key == field_name:
                 found = True
                 index = lines.index(line)

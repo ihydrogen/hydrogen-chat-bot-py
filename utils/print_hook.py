@@ -65,7 +65,8 @@ class PrintHook:
                         try:
                             raise Exception("Err print hook")
                         except:
-                            self.origOut.write(newText)
+                            if newText is not None:
+                                self.origOut.write(newText)
                             if postNewText is not None:
                                 self.origOut.write(postNewText)
 

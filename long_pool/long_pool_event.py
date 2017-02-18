@@ -2,6 +2,8 @@ import os,sys,inspect
 import traceback
 from imp import reload
 # set current path to root of project
+import bot_header
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
@@ -40,12 +42,12 @@ class LongPoolEvent(Enum):
             exec('module_%s.main(resp, lp_thread_ins)' % method_name)
             # exec("retval = LongPoolEvent.__%s__(evid)" % method_name)
         except ImportError as e:
-            # print(e)
-            # print("[WARN] [LP] define new file in long_pool_events: module_%s with method 'main'" % method_name)
+            bot_header.v(e)
+            bot_header.v("---W---[LP] define new file in long_pool_events: module_%s with method 'main'" % method_name)
             pass
         except Exception as exc:
             exceptiondata = traceback.format_exc().splitlines()
             exceptionarray = exceptiondata[-1] + " " + exceptiondata[-2] + " " + exceptiondata[-3]
-            print("[WARN][LP] Exception in modules %s:\n  | %s Trace:\n  | %s" % (method_name,
+            bot_header.w("[LP] Exception in modules %s:\n  | %s Trace:\n  | %s" % (method_name,
                                                                   str(exc),
                                                                   str(exceptionarray)))

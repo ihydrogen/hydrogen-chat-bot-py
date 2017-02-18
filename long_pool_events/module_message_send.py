@@ -94,7 +94,7 @@ def send_response(lp_thread_ins, message, response_to_user):
 
         if read_message_before_typing:
             result = api_request(api, "messages.markAsRead", "message_ids=%s, peer_id=%s" % (message.mid, message.pid))
-            lp_thread_ins.print("marking '%s' as read... %s" % (message.body, str(result)))
+            lp_thread_ins.v("Marking '%s' as read... %s" % (message.body, str(result)))
 
         # sleep each 5 secs until end of typing duration
         def typing(typing_time, stime=1):
@@ -102,7 +102,7 @@ def send_response(lp_thread_ins, message, response_to_user):
             while i < typing_time:
                 result = api_request(api, "messages.setActivity", "peer_id=%s, type='typing'" % message.pid)
                 # result = api.messages.setActivity(peer_id=message.pid, type="typing")
-                lp_thread_ins.print("making typing request for %s... %s" % (message.body, str(result)))
+                lp_thread_ins.v("making typing request for %s... %s" % (message.body, str(result)))
                 sleep(stime)
                 i += stime
 
@@ -116,4 +116,4 @@ def send_response(lp_thread_ins, message, response_to_user):
     msendresult = api_request(api, "messages.send", "random_id=%s, peer_id=%s, message='%s'" % (
         random_id, peer_id, messaget
     ))
-    lp_thread_ins.print("sending %s to %s... %s" % (response_to_user, message.body, str(msendresult)))
+    lp_thread_ins.v("sending %s to %s... %s" % (response_to_user, message.body, str(msendresult)))

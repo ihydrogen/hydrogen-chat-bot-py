@@ -69,6 +69,9 @@ class LongPoolThread(threading.Thread):
     def print(self, text):
         print('[LP] [%s] %s' % (self.account.first_last(), text))
 
+    def v(self, text):
+        bot_header.v('[LP] [%s] %s' % (self.account.first_last(), text))
+
     def run(self):
         print('[LP] run()')
         self.print("Getting LongPoolServerObject...")
