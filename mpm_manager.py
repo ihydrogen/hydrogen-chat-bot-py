@@ -19,7 +19,7 @@ class ModuleManager:
         res = None
 
         def execute_module(self, message, lpt):
-            exec('from %s import %s' % (MPM_PATH.replace("/", ".")[:-2], self.module_fname))
+            exec('from %s import %s' % (MPM_PATH.replace("/", ""), self.module_fname))
             exec("reload(" + self.module_fname + ")")
             exec("self.res = %s.%s(message, lpt)" % (self.module_fname, self.module_entry))
             return self.res
