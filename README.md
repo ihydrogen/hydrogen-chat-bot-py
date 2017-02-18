@@ -1,6 +1,7 @@
 # HydroGen Chat Bot (hcb-py)
-### Wiki: https://github.com/ihydrogen/hydrogen-chat-bot-py/wiki
+#
 This is open source Chat Bot for vk.com written in Python language (v3)
+### Wiki: https://github.com/ihydrogen/hydrogen-chat-bot-py/wiki
 
 # How to use
 To get more information visit wiki (not now:D)
