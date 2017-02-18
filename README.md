@@ -7,9 +7,10 @@ To get more information visit wiki (not now:D)
 
 # How to run
 .. code-block:: bash
-  git clone https://github.com/ihydrogen/hydrogen-chat-bot-py.git
-  cd hydrogen-chat-bot-py
-  ./bot.py
+
+    git clone https://github.com/ihydrogen/hydrogen-chat-bot-py.git
+    cd hydrogen-chat-bot-py
+    ./bot.py
   
 That's all:)
 
