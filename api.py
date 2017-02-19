@@ -28,25 +28,29 @@ class Account(User):
         s.__dict__.update(d)
         return s
 
+# Defines message object
 class Message:
-    mid = None
-    flag = None
-    pid = None
-    ts = None
-    sub = None
-    body = None
-    extra = None
+    mid = None # ID of message
+    flag = None # message flags (See VK Long pool docs)
+    pid = None # peer id (Sender id)
+    ts = None # timestamp
+    sub = None # subject of message (if private dialog - " ... ", if chat - chat title)
+    body = None # test of message
+    extra = None # extra fields (attachments, forwarded messages, etc)
 
-
+    # get specific message flag (See VK Long pool docs)
     def msgFlag(self, i, f):
         return (f & i) > 0
 
+    # check is message not incoming
     def is_out(self):
         return self.msgFlag(self.flag, 2)
 
+    # check is message sent from chat
     def is_chat(self):
         return self.pid >= 2000000000
 
+    # init
     def __init__(self, mid=None, flag=None, pid=None, ts=None, sub=None, body=None, extra=None):
         self.mid = mid
         self.flag = flag
@@ -56,6 +60,7 @@ class Message:
         self.body = body
         self.extra = extra
 
+    # get message from long pool response
     def from_long_pool(self, resp):
         mid = resp[1]
         flag = resp[2]
