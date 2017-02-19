@@ -16,6 +16,7 @@ That's all:)
 # Deps
 project usus following libs:
 * requests==2.10.0
+* termcolor==1.1.0
 * vk==2.0.2
 
 if you need to talk with me, you can write me to https://vk.com/id63337961
