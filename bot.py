@@ -97,7 +97,7 @@ def apply_options(options):
     username = options[UNAME_KEY]
     timeout = options[LONG_POOL_TIME_OUT_KEY]
     verbose = options[V_KEY]
-    bot_header.verbose = verbose
+
     pass
 
 
@@ -118,6 +118,8 @@ def create_console(acc):
 def select(acc):
     bot_header.CURRENT_ACCOUNT = acc
     print("selected: " + acc.first_last())
+    bot_header.v("Verbose output")
+    bot_header.w("Warning output")
     create_console(acc)
     pass
 
@@ -133,6 +135,14 @@ def start_long_pool(acc):
 
 # main method
 def bot_entry():
+
+    bot_header.LP_MESSAGES_RECEIVED = 0
+    bot_header.LP_MESSAGES_SENT = 0
+    bot_header.LP_REQUESTS_DONE = 0
+    bot_header.API_REQUESTS = 0
+    bot_header.FAILED_API_REQUESTS = 0
+
+
     #enable print hook
     def MyHookOut(text):
         rtext = text
@@ -204,13 +214,10 @@ def bot_entry():
 
 # Start program entry point if script is executing from command line
 if __name__ == '__main__':
-    bot_header.LP_MESSAGES_RECEIVED = 0
-    bot_header.LP_MESSAGES_SENT = 0
-    bot_header.LP_REQUESTS_DONE = 0
-    bot_header.API_REQUESTS = 0
-    bot_header.FAILED_API_REQUESTS = 0
     bot_header.LOG = []
     bot_header.LONG_POOL_THREAD_INSTANCE = None
+    bot_header.SET_ONLINE_THREAD_INSTANCE = None
+    bot_header.verbose = verbose
     try:
         bot_entry()
     except (KeyboardInterrupt, SystemExit):

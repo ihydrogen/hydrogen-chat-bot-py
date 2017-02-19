@@ -2,6 +2,7 @@ import json
 import os,sys,inspect
 
 import requests
+import vk
 
 from long_pool.long_pool_event import LongPoolEvent
 # set current path to root of project
@@ -10,7 +11,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 
 import bot_header
-import vk
+import vk_api
 import random
 import threading
 import time
@@ -26,6 +27,7 @@ class LongPoolThread(threading.Thread):
     def stop(self):
         self.print("Stopping Longpool thread...")
         self.enabled = False
+        bot_header.LONG_POOL_THREAD_INSTANCE = None
 
     class LongPoolServerObject:
         key = None

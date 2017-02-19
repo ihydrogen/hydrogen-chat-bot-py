@@ -1,7 +1,7 @@
 import json as j
 
-from api import Account
 from utils import config_file
+from vk_api.api import Account
 
 # Name for key of acc list
 ACCOUNT_LIST = "account list"

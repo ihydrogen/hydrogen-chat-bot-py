@@ -11,9 +11,9 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
 
-from api import get_api
-from api import Message
-from api import api_request
+from vk_api.api import get_api
+from vk_api.api import Message
+from vk_api.api import api_request
 
 import bot_header
 
@@ -61,9 +61,9 @@ def main(resp, lp_thread_ins):
 
 
 def send_response(lp_thread_ins, message, response_to_user):
-    # send response to vk user
+    # send response to vk_api user
     # getting api instance
-    api = get_api(lp_thread_ins)
+    api = get_api(lpt=lp_thread_ins)
     # looking at config file
     make_typing = config_file.has("typing")
     # checking typing filed in config file

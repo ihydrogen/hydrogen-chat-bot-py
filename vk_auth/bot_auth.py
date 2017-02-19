@@ -1,7 +1,6 @@
 import json
 
-import vk
-
+import vk_api
 import vk_auth.auth
 
 
@@ -20,8 +19,8 @@ def auth_try(au):
         auth_result = au.authorize()
         print("Auth complete. token: " + auth_result.access_token)
         print("Getting user data...")
-        vkapi = vk.API(vk.Session(auth_result.access_token))
-        import api
+        vkapi = vk_api.API(vk_api.Session(auth_result.access_token))
+        from vk_api import api
 
         json_ = str(vkapi.users.get(v="5.35")[0]).replace("'", '"')
         print(json_)

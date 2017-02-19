@@ -1,5 +1,6 @@
 import vk
 
+import vk_api
 import bot_header
 
 
@@ -71,12 +72,21 @@ class Message:
         extra = resp[7]
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
 
-def get_api(lpt):
-    return vk.API(vk.Session(access_token=lpt.account.token))
+def get_api(lpt = None, account=None):
+    if lpt == None and account == None:
+        raise AttributeError("longpool thread or account is required")
+    if lpt is not None:
+        account = lpt.account
+
+    return vk.API(vk.Session(access_token=account.token))
 
 def api_request(api, method, params):
     ret = dict(api=api, ret = None)
-    a = "ret = api.%s(v='5.62', %s)" % (method, params)
+    if params:
+        a = "ret = api.%s(v='5.62', %s)" % (method, params)
+    else:
+        a = "ret = api.%s(v='5.62')" % (method)
+
     exec(a, ret)
     if type(ret['ret'] is int):
         bot_header.API_REQUESTS += 1

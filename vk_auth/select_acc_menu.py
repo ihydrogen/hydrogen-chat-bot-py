@@ -1,4 +1,3 @@
-from vk.utils import raw_input
 
 from utils import config_file
 
@@ -24,7 +23,7 @@ def select_acc(list, num):
                     last = None
                     config_file.set_field("last acc", "None")
                 print("Default is %s (Just press ENTER)" % list[last].first_last())
-        id = raw_input("Select Account: ")
+        id = input("Select Account: ")
         while not str.isnumeric(id):
             if not id and last is not None:
                 id = last
