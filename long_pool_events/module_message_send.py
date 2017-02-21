@@ -47,7 +47,9 @@ def main(resp, lp_thread_ins):
         bot_header.LP_MESSAGES_SENT += 1
 
     # Printing message to std out
-    if message.is_out():
+    if message.is_loopback():
+        sep = "<->"
+    elif message.is_out():
         sep = "->"
     else:
         sep = "<-"

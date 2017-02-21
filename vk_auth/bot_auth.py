@@ -1,16 +1,17 @@
 import json
 
-import vk_api
+import vk
+
 import vk_auth.auth
 
 
-def authorize(username=None, password=None):
+def authorize(username=None, password=None, type=None):
     if username is None:
         username = input("Enter your username: ")
     if password is None:
         password = input("Enter your password: ")
 
-    au = vk_auth.auth.VKAuth(username, password)
+    au = vk_auth.auth.VKAuth(username, password, authtype=type)
     auth_try(au)
 
 
@@ -19,7 +20,7 @@ def auth_try(au):
         auth_result = au.authorize()
         print("Auth complete. token: " + auth_result.access_token)
         print("Getting user data...")
-        vkapi = vk_api.API(vk_api.Session(auth_result.access_token))
+        vkapi = vk.API(vk.Session(auth_result.access_token))
         from vk_api import api
 
         json_ = str(vkapi.users.get(v="5.35")[0]).replace("'", '"')

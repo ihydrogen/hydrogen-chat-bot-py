@@ -19,10 +19,11 @@ def select_acc(list, num):
         if cla is not None:
             if str.isnumeric(cla):
                 last = int(cla)
-                if last > len(list):
+                if last > len(list) - 1:
                     last = None
                     config_file.set_field("last acc", "None")
-                print("Default is %s (Just press ENTER)" % list[last].first_last())
+                else:
+                    print("Default is %s (Just press ENTER)" % list[last].first_last())
         id = input("Select Account: ")
         while not str.isnumeric(id):
             if not id and last is not None:

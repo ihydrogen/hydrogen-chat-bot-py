@@ -7,6 +7,7 @@ import bot_header
 import utils.config_file
 import vk_auth.account_manager
 import vk_auth.select_acc_menu
+import vk_auth.vk_app
 from console import bot_console
 from utils import print_hook
 from vk_auth.bot_auth import authorize
@@ -29,6 +30,7 @@ V_KEY = "verbose"
 LONG_POOL_TIME_OUT_KEY = "long-pool-timeout"
 # Disable date printing
 DD_KEY = "disable-date"
+AUTH_APP_KEY = "auth-app"
 
 apply_date_to_output = True
 log = None
@@ -36,11 +38,18 @@ timeout = 20
 verbose = False
 bot_console_instance = None
 
+auth_app = None
+
 def get_options(parser):
     # Verbose
     parser.add_option('-c', '--config', dest=CONF_FILE_KEY,
                       help='Use specific configuration file',
                       default=CONF_FILE
+                      )
+
+    parser.add_option('-a', '--auth-app', dest=AUTH_APP_KEY,
+                      help='Use specific auth application (APPLE_IPHONE, WIN, ANDROID)',
+                      default="WIN"
                       )
 
     parser.add_option('-t', '--long-pool-timeout', dest=LONG_POOL_TIME_OUT_KEY,
@@ -87,7 +96,8 @@ def apply_options(options):
         password,\
         username,\
         timeout,\
-        verbose
+        verbose,\
+        auth_app
 
     utils.config_file.CONF_FILE = options[CONF_FILE_KEY]
     num = options[ACC_NUM_KEY]
@@ -97,7 +107,13 @@ def apply_options(options):
     username = options[UNAME_KEY]
     timeout = options[LONG_POOL_TIME_OUT_KEY]
     verbose = options[V_KEY]
-
+    app_name = options[AUTH_APP_KEY]
+    try:
+        auth_app = vk_auth.vk_app.VKApp[app_name]
+        bot_header.v("Using app %s" % app_name)
+    except KeyError:
+        bot_header.w("app %s not exists. Using WIN app" % app_name)
+        auth_app = vk_auth.vk_app.VKApp.WIN
     pass
 
 
@@ -139,6 +155,7 @@ def bot_entry():
     bot_header.LP_REQUESTS_DONE = 0
     bot_header.API_REQUESTS = 0
     bot_header.FAILED_API_REQUESTS = 0
+    bot_header.AUTO_EXEC_THREAD_INSTANCE = None
 
 
     #enable print hook
@@ -187,12 +204,12 @@ def bot_entry():
     if len(list) > 0:
         # select menu
         if num == '999':
-            authorize(username=username, password=password)
+            auth()
         # Enter select acc menu
         account = vk_auth.select_acc_menu.select_acc(list, num)
         # if user entered 999, adding new acc
         if account is None:
-            authorize(username=username, password=password)
+            auth()
             # Enter select acc menu again
             account = vk_auth.select_acc_menu.select_acc(list, num)
         if options[LONG_POOL_KEY] == True:
@@ -202,13 +219,15 @@ def bot_entry():
     else:
         # auth
         print("You need to Log In to your account")
-        authorize(username=username, password=password)
+        auth()
 
     # The selected account logic is executing in select()
 
    # phOut.Stop()
 
 
+def auth():
+    authorize(username=username, password=password, type=auth_app)
 
 
 # Start program entry point if script is executing from command line

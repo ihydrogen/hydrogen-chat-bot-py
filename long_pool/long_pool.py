@@ -100,10 +100,12 @@ class LongPoolThread(threading.Thread):
             rurl = self.lpso.format()
             # Getting Response
             resp = json.loads(requests.get(rurl).text)
-            # Processing VK updates
-            self.on_response(resp['updates'])
-            # Updating LongPoolServerObject
-            self.lpso.ts = resp['ts']
+            # Cancel response processing if thread is stopped
+            if self.enabled:
+                # Processing VK updates
+                self.on_response(resp['updates'])
+                # Updating LongPoolServerObject
+                self.lpso.ts = resp['ts']
             pass
 
     def on_response(self, resp):

@@ -16,7 +16,7 @@ import vk_auth.vk_2fa_type
 # 2fa_supported - FLAG THAT ENABLES TWO FACTOR AUTH SUPPORT (sms to phone or auth app code)
 # force_sms - IF 2FA - SEND SMS TO PHONE PRIMARY
 ###
-__url__ = "https://oauth.vk_api.com/token?" \
+__url__ = "https://oauth.vk.com/token?" \
           "grant_type=password&client_id=%s" \
           "&client_secret=%s" \
           "&username=%s&password=%s" \
@@ -123,7 +123,7 @@ class VKAuth():
     # send HTTPS request to vk_auth api and parse response with json.loads()
     def __do_auth__(self):
         url = self.__request_url__
-        response = requests.get(url=url).text
+        response = requests.get(url).text
         return json.loads(str(response))
 
     # append code of tfactor auth to request
