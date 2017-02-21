@@ -2,6 +2,8 @@ import json
 
 import vk
 
+import vk
+import vk_api
 import vk_auth.auth
 
 
