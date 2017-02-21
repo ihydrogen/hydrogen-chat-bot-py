@@ -41,12 +41,6 @@ bot_console_instance = None
 auth_app = None
 
 def get_options(parser):
-    # Verbose
-    parser.add_option('-c', '--config', dest=CONF_FILE_KEY,
-                      help='Use specific configuration file',
-                      default=CONF_FILE
-                      )
-
     parser.add_option('-a', '--auth-app', dest=AUTH_APP_KEY,
                       help='Use specific auth application (APPLE_IPHONE, WIN, ANDROID)',
                       default="WIN"
