@@ -37,7 +37,8 @@ class Message:
     ts = None # timestamp
     sub = None # subject of message (if private dialog - " ... ", if chat - chat title)
     body = None # test of message
-    extra = None # extra fields (attachments, forwarded messages, etc)
+    extra = None # extra fields (forwarded messages, etc)
+    attachments = None
 
     # get specific message flag (See VK Long pool docs)
     def msgFlag(self, i, f):
@@ -65,6 +66,7 @@ class Message:
         self.sub = sub
         self.body = body
         self.extra = extra
+        self.attachments = self.parse_attachments()
 
     # get message from long pool response
     def from_long_pool(self, resp):
@@ -76,6 +78,16 @@ class Message:
         body = resp[6]
         extra = resp[7]
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
+
+    def parse_attachments(self):
+        if not "attach1_type" in self.extra:
+            return None
+
+        i = 1
+        while "attach%s_type" % i in self.extra:
+            pass
+        pass
+
 
 def get_api(lpt = None, account=None):
     if lpt == None and account == None:

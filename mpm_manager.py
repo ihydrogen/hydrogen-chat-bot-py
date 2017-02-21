@@ -16,9 +16,13 @@ class ModuleManager:
         module_description = None
         module_entry = None
         module_fname = None
+        module_extra = None
         res = None
 
         def execute_module(self, message, lpt):
+            if not self.process_extra(message):
+                return None
+
             exec('from %s import %s' % (MPM_PATH.replace("/", ""), self.module_fname))
             exec("reload(" + self.module_fname + ")")
             exec("self.res = %s.%s(message, lpt)" % (self.module_fname, self.module_entry))
@@ -32,12 +36,26 @@ class ModuleManager:
                                                  ))
 
         def __init__(self, module_author=None, module_description=None, module_name=None, module_version=None,
-                     module_entry="main"):
+                     module_entry="main", module_extra=None):
             self.module_author = module_author
             self.module_description = module_description
             self.module_name = module_name
             self.module_version = module_version
             self.module_entry = module_entry
+            self.module_extra = module_extra
+
+        def process_extra(self, message):
+            b = True
+
+            if type(self.module_extra) == dict:
+                if "on_body" in self.module_extra:
+                    b = b and message.body == self.module_extra["on_body"]
+                if "has_attachment_type" in self.module_extra:
+                    found = False
+
+
+            return b
+            pass
 
     # get list of available modules
     def get_modules(self):
@@ -60,24 +78,33 @@ class ModuleManager:
         exec("reload(" + file + ")")
         m = self.Module()
         m.module_fname = file
+
+        def get_field(file, module_field_name, quiet=False, file_field_name=None):
+            if file_field_name is None:
+                file_field_name = module_field_name
+
+            try:
+                exec('m.%s = %s.%s' % (module_field_name, file, file_field_name))
+            except AttributeError:
+                if not quiet:
+                    raise AttributeError
+                pass
+
         try:
-            exec('m.module_version = %s.module_version' % file)
-            exec('m.module_name = %s.module_name' % file)
-            exec('m.module_author = %s.module_author '% file)
+            get_field(file, "module_version")
+            get_field(file, "module_name")
+            get_field(file, "module_author")
         except AttributeError:
             if not quiet:
                 print("[LP] [MPM MANAGER] MODULE %s is invalid!"
                   " Try to define module_version (str), module_name (str) and module_author (str)"
                   " vars" % file)
             return None
-        try:
-            exec('m.module_description = %s.module_description' % file)
-        except AttributeError:
-            pass
-        try:
-            exec('m.module_entry = %s.module_entry' % file)
-        except AttributeError:
-            pass
+
+        get_field(file, "module_description" , quiet=True)
+        get_field(file, "module_entry", quiet=True)
+        get_field(file, "module_extra", quiet=True)
+
 
         return m
 

@@ -53,6 +53,8 @@ class UserData:
 # Main VKAuth class implements vk_auth authorization
 class VKAuth():
 
+
+    # str.split()
     ######################
     __client_id__ = ''
     __client_secret__ = ''
@@ -60,9 +62,10 @@ class VKAuth():
     ######################
 
     # VK App e.g. Apple client or Android client or windows desktop
-    auth_type = None
+    auth_type = VKApp.WIN
 
     # scrope (DESCRIBED ABOVE)
+
     prevs = ''
 
     # DESCRIBED ABOVE
