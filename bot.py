@@ -4,7 +4,6 @@ import time
 from optparse import OptionParser
 
 import bot_header
-import utils.config_file
 import vk_auth.account_manager
 import vk_auth.select_acc_menu
 import vk_auth.vk_app
@@ -17,10 +16,7 @@ THIS IS ENTRY FILE OF PROJECT
 ./bot.py -> bot_entry()
 """
 
-# Name of configuration file
-CONF_FILE = utils.config_file.CONF_FILE
 # Name of keys of options[]
-CONF_FILE_KEY = 'config-file'
 ACC_NUM_KEY = 'account-num'
 LOG_FILE_KEY = 'log-file'
 LONG_POOL_KEY = "start-long-pool"
@@ -41,12 +37,6 @@ bot_console_instance = None
 auth_app = None
 
 def get_options(parser):
-    # Verbose
-    parser.add_option('-c', '--config', dest=CONF_FILE_KEY,
-                      help='Use specific configuration file',
-                      default=CONF_FILE
-                      )
-
     parser.add_option('-a', '--auth-app', dest=AUTH_APP_KEY,
                       help='Use specific auth application (APPLE_IPHONE, WIN, ANDROID)',
                       default="WIN"
@@ -99,7 +89,6 @@ def apply_options(options):
         verbose,\
         auth_app
 
-    utils.config_file.CONF_FILE = options[CONF_FILE_KEY]
     num = options[ACC_NUM_KEY]
     log = options[LOG_FILE_KEY]
     apply_date_to_output = options[DD_KEY]
