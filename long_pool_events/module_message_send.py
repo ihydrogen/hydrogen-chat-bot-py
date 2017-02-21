@@ -113,7 +113,7 @@ def send_response(lp_thread_ins, message, response_to_user):
     random_id = random.randint(0, 100000)
     peer_id = message.pid
     messaget = response_to_user
-    msendresult = api_request(api, "messages.send", "random_id=%s, peer_id=%s, message='%s'" % (
+    msendresult = api_request(api, "messages.send", "random_id=%s, peer_id=%s, message=\"%s\"" % (
         random_id, peer_id, messaget
     ))
     lp_thread_ins.v("sending %s to %s... %s" % (response_to_user, message.body, str(msendresult)))

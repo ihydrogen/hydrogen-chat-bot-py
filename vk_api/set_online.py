@@ -24,13 +24,13 @@ class OnlineThread(threading.Thread):
 
 
     def print(self, text):
-        print('[OTHD] [%s] %s' % (self.account.first_last(), text))
+        print('[::OTHD] [%s] %s' % (self.account.first_last(), text))
 
     def v(self, text):
-        bot_header.v('[OTHD] [%s] %s' % (self.account.first_last(), text))
+        bot_header.v('[::OTHD] [%s] %s' % (self.account.first_last(), text))
 
     def w(self, text):
-        bot_header.w('[OTHD] [%s] %s' % (self.account.first_last(), text))
+        bot_header.w('[::OTHD] [%s] %s' % (self.account.first_last(), text))
 
     def set_online(self, online):
         if online:

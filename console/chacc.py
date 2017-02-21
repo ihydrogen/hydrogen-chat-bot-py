@@ -6,6 +6,7 @@ from console import bot_console
 
 def main(cmd):
     print("Exiting all threads...")
+    # Before changing accs, close all threads
     con = bot_console.Console()
     if bot_header.LONG_POOL_THREAD_INSTANCE is not None:
         con.run("longpool stop")

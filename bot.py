@@ -118,8 +118,6 @@ def create_console(acc):
 def select(acc):
     bot_header.CURRENT_ACCOUNT = acc
     print("selected: " + acc.first_last())
-    bot_header.v("Verbose output")
-    bot_header.w("Warning output")
     create_console(acc)
     pass
 
@@ -150,8 +148,9 @@ def bot_entry():
         if text.strip() and apply_date_to_output:
             rtext = '[%s] ' % time.strftime("%c") + text
 
-        if not rtext.__contains__(">>"):
-            if rtext.__contains__("LP") and not rtext.__contains__("[LOG]"):
+        if not ">>" in rtext:
+            if "[::" in rtext and not "[LOG]" in rtext:
+                rtext = rtext.replace("[::", "[")
                 bot_header.LOG.append(rtext)
                 if log:
                     with open(log, 'at') as logf:

@@ -65,17 +65,26 @@ class LongPoolThread(threading.Thread):
         self.account = account
         threading.Thread.__init__(self)
         self.threadID = random.randint(0, 1000)
-        self.name = "[LP-%s] " %  (self.account.first_last())
+        self.name = "[::LP-%s] " %  (self.account.first_last())
 
     # Custom print func that prints username
-    def print(self, text):
-        print('[LP] [%s] %s' % (self.account.first_last(), text))
+    def print(self, text, from_module=None):
+        if from_module is None:
+            print('[::LP] [%s] %s' % (self.account.first_last(), text))
+        else:
+            name = from_module.replace("modules.", "")
+            import mpm_manager
+            mname = mpm_manager.ModuleManager().get_module_from_file(name)
+            if mname is not None:
+                print('[::LP:%s] [%s] %s' % (mname.module_name, self.account.first_last(), text))
+            else:
+                print(text)
 
     def v(self, text):
-        bot_header.v('[LP] [%s] %s' % (self.account.first_last(), text))
+        bot_header.v('[::LP] [%s] %s' % (self.account.first_last(), text))
 
     def run(self):
-        print('[LP] run()')
+        print('[::LP] run()')
         self.print("Getting LongPoolServerObject...")
         # Getting VK API Instance...
         api = vk.API(vk.Session(access_token=self.account.token))

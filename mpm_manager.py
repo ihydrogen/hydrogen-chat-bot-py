@@ -55,7 +55,7 @@ class ModuleManager:
                     modules.append(module)
         return modules
     # get modules by name
-    def get_module_from_file(self, file):
+    def get_module_from_file(self, file, quiet=False):
         exec('from modules import %s' % file)
         exec("reload(" + file + ")")
         m = self.Module()
@@ -65,7 +65,8 @@ class ModuleManager:
             exec('m.module_name = %s.module_name' % file)
             exec('m.module_author = %s.module_author '% file)
         except AttributeError:
-            print("[LP] [MPM MANAGER] MODULE %s is invalid!"
+            if not quiet:
+                print("[LP] [MPM MANAGER] MODULE %s is invalid!"
                   " Try to define module_version (str), module_name (str) and module_author (str)"
                   " vars" % file)
             return None

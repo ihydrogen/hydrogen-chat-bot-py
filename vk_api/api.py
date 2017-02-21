@@ -47,6 +47,11 @@ class Message:
     def is_out(self):
         return self.msgFlag(self.flag, 2)
 
+    def is_loopback(self, account=None):
+        if account is None:
+            account = bot_header.CURRENT_ACCOUNT
+        return  self.pid == account.user_id
+
     # check is message sent from chat
     def is_chat(self):
         return self.pid >= 2000000000
@@ -80,7 +85,7 @@ def get_api(lpt = None, account=None):
 
     return vk.API(vk.Session(access_token=account.token))
 
-def api_request(api, method, params):
+def api_request(api, method, params=''):
     ret = dict(api=api, ret = None)
     if params:
         a = "ret = api.%s(v='5.62', %s)" % (method, params)
@@ -88,7 +93,8 @@ def api_request(api, method, params):
         a = "ret = api.%s(v='5.62')" % (method)
 
     exec(a, ret)
-    if type(ret['ret'] is int):
+
+    if 'error' in str(ret['ret']):
         bot_header.API_REQUESTS += 1
     else:
         bot_header.FAILED_API_REQUESTS += 1
