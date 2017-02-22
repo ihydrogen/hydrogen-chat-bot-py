@@ -16,6 +16,8 @@ class AccountManager:
     location = config_file.CONF_FILE
 
     def get_account_list_raw(self, accs):
+        if accs == None:
+            return []
         accs = accs.replace("'", '"')
         result = []
         json = j.loads(accs)

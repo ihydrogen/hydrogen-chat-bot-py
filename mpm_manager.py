@@ -50,8 +50,14 @@ class ModuleManager:
             if type(self.module_extra) == dict:
                 if "on_body" in self.module_extra:
                     b = b and message.body == self.module_extra["on_body"]
-                if "has_attachment_type" in self.module_extra:
+                if "attach_type" in self.module_extra:
                     found = False
+                    atype = self.module_extra['attach_type']
+                    for attach in message.attachments:
+                        if atype == attach.attachment_type:
+                            found = True
+                    b = b and found
+
 
 
             return b
@@ -78,33 +84,28 @@ class ModuleManager:
         exec("reload(" + file + ")")
         m = self.Module()
         m.module_fname = file
-
-        def get_field(file, module_field_name, quiet=False, file_field_name=None):
-            if file_field_name is None:
-                file_field_name = module_field_name
-
-            try:
-                exec('m.%s = %s.%s' % (module_field_name, file, file_field_name))
-            except AttributeError:
-                if not quiet:
-                    raise AttributeError
-                pass
-
         try:
-            get_field(file, "module_version")
-            get_field(file, "module_name")
-            get_field(file, "module_author")
+            exec('m.module_version = %s.module_version' % file)
+            exec('m.module_name = %s.module_name' % file)
+            exec('m.module_author = %s.module_author '% file)
         except AttributeError:
             if not quiet:
                 print("[LP] [MPM MANAGER] MODULE %s is invalid!"
                   " Try to define module_version (str), module_name (str) and module_author (str)"
                   " vars" % file)
             return None
-
-        get_field(file, "module_description" , quiet=True)
-        get_field(file, "module_entry", quiet=True)
-        get_field(file, "module_extra", quiet=True)
-
+        try:
+            exec('m.module_description = %s.module_description' % file)
+        except AttributeError:
+            pass
+        try:
+            exec('m.module_entry = %s.module_entry' % file)
+        except AttributeError:
+            pass
+        try:
+            exec('m.module_extra = %s.module_extra  ' % file)
+        except AttributeError:
+            pass
 
         return m
 

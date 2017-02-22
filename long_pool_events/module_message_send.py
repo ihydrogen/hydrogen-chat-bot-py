@@ -21,7 +21,6 @@ import bot_header
 # calling from main()
 def on_message_received(message, lpt):
     e = message.extra
-    print(e)
     # Getting list of modules
     manager = mpm_manager.ModuleManager()
     modules = manager.get_modules()

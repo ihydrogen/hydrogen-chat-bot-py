@@ -17,5 +17,6 @@ def tm(message, lpt):
     # checking that message is not out and his body is equal to 'ping'
     if not message.is_out() and message.body.lower() == 'ping':
         # send 'OK' to peer
+        print(message.attachments)
         return "OK"
 

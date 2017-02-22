@@ -19,14 +19,14 @@ THIS IS ENTRY FILE OF PROJECT
 # Name of keys of options[]
 ACC_NUM_KEY = 'account-num'
 LOG_FILE_KEY = 'log-file'
-LONG_POOL_KEY = "start-long-pool"
-UNAME_KEY = "username"
-PASSWD_KEY = "password"
-V_KEY = "verbose"
-LONG_POOL_TIME_OUT_KEY = "long-pool-timeout"
+LONG_POOL_KEY = 'start-long-pool'
+UNAME_KEY = 'username'
+PASSWD_KEY = 'password'
+V_KEY = 'verbose'
+LONG_POOL_TIME_OUT_KEY = 'long-pool-timeout'
 # Disable date printing
-DD_KEY = "disable-date"
-AUTH_APP_KEY = "auth-app"
+DD_KEY = 'disable-date'
+AUTH_APP_KEY = 'auth-app'
 
 apply_date_to_output = True
 log = None

@@ -6,7 +6,7 @@ sys.path.insert(0,parentdir)
 from utils.config_file import *
 
 # Create config, write some data and read it.
-CONF_FILE = "test"
+CONF_FILE = "test.conf"
 # Create config
 touch(CONF_FILE)
 

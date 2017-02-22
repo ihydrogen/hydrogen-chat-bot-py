@@ -1,5 +1,6 @@
-# Bot primary Configuration file
-hcbpy.conf
+# Configuration files
+config/
+*.conf
 
 # IDEA based stuff
 .idea/

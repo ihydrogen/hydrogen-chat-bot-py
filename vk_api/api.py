@@ -31,6 +31,15 @@ class Account(User):
 
 # Defines message object
 class Message:
+
+    class MessageAttachment:
+        attachment_value = None
+        attachment_type = None
+
+        def __init__(self, type, value):
+            self.attachment_type = type
+            self.attachment_value = value
+
     mid = None # ID of message
     flag = None # message flags (See VK Long pool docs)
     pid = None # peer id (Sender id)
@@ -66,7 +75,8 @@ class Message:
         self.sub = sub
         self.body = body
         self.extra = extra
-        self.attachments = self.parse_attachments()
+        if extra is not None:
+            self.attachments = self.parse_attachments()
 
     # get message from long pool response
     def from_long_pool(self, resp):
@@ -80,13 +90,23 @@ class Message:
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
 
     def parse_attachments(self):
-        if not "attach1_type" in self.extra:
-            return None
+        # initialize empty list
+        result = []
 
+        # checking for attachments
+        if not "attach1_type" in self.extra:
+            return result
+
+        # if message has attachs, start parsing
+        # parse attachment
         i = 1
+        # get attach by number
         while "attach%s_type" % i in self.extra:
-            pass
-        pass
+            attach_type = self.extra["attach%s_type" % i]
+            attach_val = self.extra["attach%s" % i]
+            result.append(Message.MessageAttachment(attach_type, attach_val))
+
+        return result
 
 
 def get_api(lpt = None, account=None):

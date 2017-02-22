@@ -2,12 +2,23 @@
 # -*- coding: utf-8 -*-
 import shutil
 
-CONF_FILE  = 'hcbpy.conf'
+import errno
+
+CONF_FILE  = 'config/hcbpy.conf'
 
 import os
 def touch(fname, times=None):
-    with open(fname, 'a'):
-        os.utime(fname, times)
+    dn = os.path.dirname(fname)
+
+    if not os.path.exists(fname):
+       if dn:
+            try:
+                os.makedirs(os.path.dirname(fname))
+            except OSError as exc:  # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
+       with open(fname, "w") as f:
+           f.write("")
 
 touch(CONF_FILE)
 
