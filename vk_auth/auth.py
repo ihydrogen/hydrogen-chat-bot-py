@@ -120,8 +120,13 @@ class VKAuth():
 
     # init __client_id__ and __client_secret__
     def __auth_type__(self):
-        self.__client_id__ = self.auth_type.value.cid
-        self.__client_secret__ = self.auth_type.value.sec
+        if self.auth_type is not None:
+            self.__client_id__ = self.auth_type.value.cid
+            self.__client_secret__ = self.auth_type.value.sec
+        else:
+            print("Trying with default app")
+            self.__client_id__ = VKApp.WIN.value.cid
+            self.__client_secret__ = VKApp.WIN.value.secq
 
     # send HTTPS request to vk_auth api and parse response with json.loads()
     def __do_auth__(self):
@@ -165,6 +170,7 @@ class VKAuth():
                 self.two_factor_object.two_factor_phone_number = json_object['phone_mask']
             # processing need_captcha error
             elif json_object['error'] == 'need_captcha':
+                self.captcha_object = CaptchaObject()
                 self.captcha_object.captcha_sid = json_object['captcha_sid']
                 self.captcha_object.captcha_url = json_object['captcha_img']
 

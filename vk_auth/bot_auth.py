@@ -25,7 +25,7 @@ def auth_try(au):
         vkapi = vk.API(vk.Session(auth_result.access_token))
         from vk_api import api
 
-        json_ = str(vkapi.users.get(v="5.35")[0]).replace("'", '"')
+        json_ = str(vkapi   .users.get(v="5.35")[0]).replace("'", '"')
         print(json_)
         user = json.loads(json_, object_hook=api.User.from_json)
 
@@ -67,3 +67,11 @@ def auth_try(au):
             au.with_two_factor_code(code)
             au.update()
             auth_try(au)
+        elif exc.error == "need_captcha":
+            # Process captcha request
+            code = input("You need to enter code from this image: %s\nCode: " % au.captcha_object.captcha_url)
+            print("Trying with %s..." % code)
+            au.with_captcha(code)
+            au.update()
+            auth_try(au)
+

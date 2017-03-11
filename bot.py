@@ -79,6 +79,7 @@ def get_options(parser):
 
 
 def apply_options(options):
+
     global CONF_FILE,\
         num,\
         log,\
