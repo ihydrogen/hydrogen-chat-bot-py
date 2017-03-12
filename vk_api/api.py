@@ -90,6 +90,7 @@ class Message:
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
 
     def parse_attachments(self):
+        print(self.extra)
         # initialize empty list
         result = []
 
@@ -100,12 +101,14 @@ class Message:
         # if message has attachs, start parsing
         # parse attachment
         i = 1
+        print("id: %s" % i)
         # get attach by number
         while "attach%s_type" % i in self.extra:
-            attach_type = self.extra["attach%s_type" % i]
-            attach_val = self.extra["attach%s" % i]
+            attach_type = self.extra["attach%s_type" % str(i)]
+            attach_val = self.extra["attach%s" % str(i)]
+            print("Got id %s with data %s" % (attach_type, attach_val))
             result.append(Message.MessageAttachment(attach_type, attach_val))
-
+            i+=1
         return result
 
 
