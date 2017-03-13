@@ -103,9 +103,12 @@ class LongPoolThread(threading.Thread):
             # Cancel response processing if thread is stopped
             if self.enabled:
                 # Processing VK updates
-                self.on_response(resp['updates'])
-                # Updating LongPoolServerObject
-                self.lpso.ts = resp['ts']
+                if "updates" in resp:
+                    self.on_response(resp['updates'])
+                    # Updating LongPoolServerObject
+                    self.lpso.ts = resp['ts']
+                else:
+                    print("cant find updates")
             pass
 
     def on_response(self, resp):
