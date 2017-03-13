@@ -109,6 +109,8 @@ class LongPoolThread(threading.Thread):
                     self.lpso.ts = resp['ts']
                 else:
                     print("cant find updates")
+                    from console import bot_console
+                    console.run("longpool restart")
             pass
 
     def on_response(self, resp):
