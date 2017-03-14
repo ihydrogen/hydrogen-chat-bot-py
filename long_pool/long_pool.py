@@ -16,6 +16,8 @@ import random
 import threading
 import time
 
+from console import bot_console
+
 class LongPoolThread(threading.Thread):
     # Account that will be used for Messages.GetLongPoolServer
     # .. Method on VK API
@@ -108,8 +110,8 @@ class LongPoolThread(threading.Thread):
                     # Updating LongPoolServerObject
                     self.lpso.ts = resp['ts']
                 else:
-                    print("cant find updates")
-                    from console import bot_console
+                    print("cant find updates, restartin' thread")
+                    console = bot_console.Console()
                     console.run("longpool restart")
             pass
 
