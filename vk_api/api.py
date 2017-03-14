@@ -90,7 +90,7 @@ class Message:
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
 
     def parse_attachments(self):
-        print(self.extra)
+        # print(self.extra)
         # initialize empty list
         result = []
 

@@ -12,7 +12,22 @@ class Console(object):
         else:
             return ''
 
+
+    def exec_startup(self):
+        with open("startup.hsh") as f:
+            content = f.readlines()
+            # you may also want to remove whitespace characters like `\n` at the end of each line
+            content = [x.strip() for x in content]
+            for x in content:
+                if x.startswith('#'):
+                    print(x.replace("#", "").strip())
+                    continue
+                self.run(x) 
+        
+
     def run_looped(self):
+        # process startup scripts
+        self.exec_startup()    
         while 1:
             ui = input(self.get_message())
             self.run(ui)

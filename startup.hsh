@@ -1,0 +1,12 @@
+# Startup script
+# Accept messages
+longpool start
+# Be online
+setonline start
+# Start aexec
+aexec start
+# Add rules
+#
+#
+# Accept all friend requests each min
+aexec new -t each -T 1m -a HC_CONSOLE -A acceptall -# 7765
