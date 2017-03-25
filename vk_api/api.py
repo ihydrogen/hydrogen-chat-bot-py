@@ -106,6 +106,10 @@ class Message:
         while "attach%s_type" % i in self.extra:
             attach_type = self.extra["attach%s_type" % str(i)]
             attach_val = self.extra["attach%s" % str(i)]
+            if attach_type == "doc":
+                if "attach%s_kind" % str(i):
+                    if self.extra["attach%s_kind" % str(i)] == "audiomsg":
+                        attach_type = "amessage"
             print("Got id %s with data %s" % (attach_type, attach_val))
             result.append(Message.MessageAttachment(attach_type, attach_val))
             i+=1
