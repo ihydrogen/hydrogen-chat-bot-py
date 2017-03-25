@@ -136,3 +136,6 @@ def api_request(api, method, params=''):
 
 
     return ret['ret']
+
+def vapi(method, params=''):
+    return api_request(get_api(account=bot_header.CURRENT_ACCOUNT), method, params)
