@@ -9,4 +9,4 @@ aexec start
 #
 #
 # Accept all friend requests each min
-aexec new -t each -T 1m -a HC_CONSOLE -A acceptall -# 7765
+# aexec new -t each -T 1m -a HC_CONSOLE -A acceptall -# 7765
