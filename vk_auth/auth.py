@@ -78,7 +78,7 @@ class VKAuth():
     force_sms = '0'
 
     # INITIALIZE VARIABLES
-    def __init__(self, username, password, authtype=VKApp.WIN, prevs='audio,wall,friends,messages,status'):
+    def __init__(self, username, password, authtype=VKApp.WIN, prevs='docs,audio,wall,friends,messages,status'):
         username = username.strip()
         password = password.strip()
         if not username or not password:

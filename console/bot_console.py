@@ -1,7 +1,7 @@
 import os
 from imp import reload
 
-
+sstarted = False
 class Console(object):
     acc = None
     acc_number = None
@@ -14,6 +14,8 @@ class Console(object):
 
 
     def exec_startup(self):
+        if sstarted:
+            return 0
         with open("startup.hsh") as f:
             content = f.readlines()
             # you may also want to remove whitespace characters like `\n` at the end of each line
@@ -27,13 +29,14 @@ class Console(object):
 
     def run_looped(self):
         # process startup scripts
+#        if sstarted == False:
         self.exec_startup()    
+        sstarted = True
         while 1:
             ui = input(self.get_message())
             self.run(ui)
 
     def run(self, ui):
-
         # pass if user pressed
         if not ui:
             return 1

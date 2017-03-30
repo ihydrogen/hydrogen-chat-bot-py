@@ -1,4 +1,5 @@
 import bot_header
+from console import bot_console
 from vk_api.api import api_request
 from vk_api.api import get_api
 from time import sleep
@@ -19,6 +20,9 @@ def add(item, api):
 #		print("Trying 2 add %s ..." % item)
 		addf = api_request(api, "friends.add", "user_id=%s" % item)
 		print("Adding %s ... %s" % (item, str(addf)))
+		console = bot_console.Console()
+		first = api_request(api, "users.get", "user_ids=%s" % item)[0]['first_name']
+		console.run("sendmsg 63337961 Adding %s to friends" % first)
 	except Exception as e:
 		err = str(e)
 		if "per second" in err.lower():

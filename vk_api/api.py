@@ -1,8 +1,8 @@
 import vk
-
+import bash
 import vk_api
 import bot_header
-
+import speech_recognize
 
 class User():
     first_name = ''
@@ -90,6 +90,19 @@ class Message:
         return Message(mid=mid, flag=flag, pid=pid, ts=ts, sub=sub, body=body, extra=extra)
 
     def parse_attachments(self):
+
+        def aparse():
+            # Get amessage info
+            result = vapi("messages.getById", "message_ids=\"%s\"" % self.mid)
+            # Get file url
+            url = result['items'][0]['attachments'][0]['doc']['preview']['audio_msg']['link_mp3']
+            bash.bash("wget -O in.mp3 %s" % url)
+            response_from_google = speech_recognize.recognize("in.mp3")
+            #if "ры" in str(response_from_google):
+            # bash.bash("mpg123 riig*")
+            return response_from_google
+
+
         # print(self.extra)
         # initialize empty list
         result = []
@@ -109,6 +122,7 @@ class Message:
             if attach_type == "doc":
                 if "attach%s_kind" % str(i):
                     if self.extra["attach%s_kind" % str(i)] == "audiomsg":
+                        self.body = aparse()
                         attach_type = "amessage"
             print("Got id %s with data %s" % (attach_type, attach_val))
             result.append(Message.MessageAttachment(attach_type, attach_val))
