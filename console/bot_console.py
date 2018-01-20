@@ -1,5 +1,6 @@
 import os
 from imp import reload
+import bot_header
 
 
 class Console(object):
@@ -19,15 +20,19 @@ class Console(object):
             # you may also want to remove whitespace characters like `\n` at the end of each line
             content = [x.strip() for x in content]
             for x in content:
-                if x.startswith('#'):
-                    print(x.replace("#", "").strip())
+                if x.startswith('.'):
+                    print(x[1:].strip())
                     continue
-                self.run(x) 
-        
+                elif x.startswith('#'):
+                    continue
+                self.run(x)
+        bot_header.CONSOLE_STARTED = True
+
 
     def run_looped(self):
         # process startup scripts
-        self.exec_startup()    
+        if not bot_header.CONSOLE_STARTED:
+            self.exec_startup()
         while 1:
             ui = input(self.get_message())
             self.run(ui)
@@ -48,10 +53,10 @@ class Console(object):
             for file in filenames:
                 if not file.endswith(".py") or file == "bot_console.py":
                     continue
-                file = os.path.join(dirname, file).replace("console/", "", 1)\
+                file = os.path.join(dirname, file).replace(os.sep, "/").replace("console/", "", 1)\
                     .replace(".py", "")
-                cmd = file.replace(os.sep, " ")
-                py = file.replace(os.sep, ".")
+                cmd = file.replace("/", " ")
+                py = file.replace("/", ".")
                 if ui.startswith(cmd):
                     exec('import console.' + py)
                     exec("reload(console." + py + ")")
@@ -59,8 +64,8 @@ class Console(object):
                     exec(execute_str)
                     return 0
             for file in dirnames:
-                file = os.path.join(dirname, file)
-                cmd = file.replace("console/", "", 1).replace(os.sep, " ")
+                file = os.path.join(dirname, file.replace(os.sep, "/"))
+                cmd = file.replace("console%s" % os.sep, "", 1).replace(os.sep, " ")
                 if ui == cmd:
                     r = ""
                     files = os.listdir(file)

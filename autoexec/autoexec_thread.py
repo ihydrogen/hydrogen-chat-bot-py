@@ -65,7 +65,7 @@ class AutoexecThread(Thread):
 
     def exec_rule(self, rule):
         try:
-            self.print("Executing rule #%s" % rule.id)
+            print("Executing rule #%s" % rule.id)
             if rule.action is not None:
                 if rule.action == AutoexecActionType.ACTION_HC_CONSOLE:
                     if rule.action_value is not None:

@@ -29,7 +29,8 @@ class ModuleManager:
             return self.res
 
         def print(self):
-            print("Module '%s': '%s' [%s] - %s" % (self.module_name,
+            print("Module (%s) '%s': '%s' [%s] - %s" % (self.module_fname,
+                                                 self.module_name,
                                                  self.module_version,
                                                  self.module_author,
                                                  str(self.module_description)
@@ -74,10 +75,16 @@ class ModuleManager:
 
         for file in files:
             if file.endswith(".py") and file != "__init__.py":
-                module = self.get_module_from_file(file.replace(".py", ""))
-                if module is not None:
-                    modules.append(module)
+                try:
+                    module = self.get_module_from_file(file.replace(".py", ""))
+                    if module is not None:
+                        modules.append(module)
+                except Exception as error:
+                    print("[LP] [MPM MANAGER] Error: %s" % str(error))
+                    pass
         return modules
+
+
     # get modules by name
     def get_module_from_file(self, file, quiet=False):
         exec('from modules import %s' % file)

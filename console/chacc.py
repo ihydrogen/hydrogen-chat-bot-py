@@ -5,6 +5,8 @@ from console import bot_console
 
 
 def main(cmd):
+    if not "chacc" in cmd:
+        return None
     print("Exiting all threads...")
     # Before changing accs, close all threads
     con = bot_console.Console()

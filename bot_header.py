@@ -9,6 +9,7 @@ global CURRENT_ACCOUNT, LP_REQUESTS_DONE, LP_MESSAGES_RECEIVED, LP_MESSAGES_SENT
     verbose
 
 WARNING = "---W---"
+CONSOLE_STARTED = False
 
 def w(text):
     print("%s%s" % (WARNING, text))

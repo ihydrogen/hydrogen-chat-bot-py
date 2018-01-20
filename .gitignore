@@ -1,6 +1,7 @@
 # Configuration files
 config/
 *.conf
+*.log
 
 # IDEA based stuff
 .idea/

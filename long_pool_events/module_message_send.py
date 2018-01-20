@@ -7,6 +7,8 @@ from time import sleep
 import mpm_manager
 from utils import config_file
 
+FORMAT_PID_STR = "longpool format peer id"
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0,parentdir)
@@ -14,6 +16,7 @@ sys.path.insert(0,parentdir)
 from vk_api.api import get_api
 from vk_api.api import Message
 from vk_api.api import api_request
+from vk_api.api import vapi
 
 import bot_header
 
@@ -55,7 +58,15 @@ def main(resp, lp_thread_ins):
     else:
         sep = "<-"
 
-    lp_thread_ins.print("%s [%s]: %s" % (sep, str(message.pid), message.body))
+    fpid = False
+    fpid = config_file.get_field(FORMAT_PID_STR) != "0"
+
+    if fpid:
+        u = vapi("users.get", "user_ids=%s" % message.pid)[0]
+        lp_thread_ins.print("%s [%s]: %s" % (sep, "%s %s" % (u["first_name"], u["last_name"]), message.body))
+    else:
+        lp_thread_ins.print("%s [%s]: %s" % (sep, str(message.pid), message.body))
+
     #
 
     response_to_user = on_message_received(message, lp_thread_ins)
